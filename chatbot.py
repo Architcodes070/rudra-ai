@@ -44,25 +44,31 @@ user_data = load_user()
 # ---------------- SIDEBAR ----------------
 with st.sidebar:
     st.markdown("## 🔥 Rudra AI")
+    st.caption("Built by Archit")
 
     chat_names = list(st.session_state.chats.keys())
 
     if st.session_state.current_chat not in chat_names:
         st.session_state.current_chat = chat_names[0]
 
-    current_index = chat_names.index(st.session_state.current_chat)
+    selected_chat = st.selectbox(
+        "Chats",
+        chat_names,
+        index=chat_names.index(st.session_state.current_chat)
+    )
 
-    selected_chat = st.selectbox("Chats", chat_names, index=current_index)
     st.session_state.current_chat = selected_chat
 
     if st.button("➕ New Chat"):
-        new_name = f"Chat {len(chat_names) + 1}"
+        new_name = f"Chat {len(st.session_state.chats) + 1}"
         st.session_state.chats[new_name] = []
         st.session_state.current_chat = new_name
         st.rerun()
 
     style = st.radio("Response Style", ["Short", "Detailed"])
-    uploaded_file = st.file_uploader("Upload File", type=["txt", "png", "jpg", "jpeg"])
+
+messages = st.session_state.chats[st.session_state.current_chat]
+   
 
 # ---------------- SYSTEM PROMPT ----------------
 def get_system_prompt():
@@ -80,14 +86,6 @@ st.caption("Not just AI. Controlled Intelligence.")
 
 messages = st.session_state.chats[st.session_state.current_chat]
 
-# ---------------- FILE ----------------
-if uploaded_file is not None:
-    if uploaded_file.type.startswith("image"):
-        st.image(uploaded_file)
-        messages.append({"role": "user", "content": "Describe this image"})
-    else:
-        content = uploaded_file.read().decode("utf-8", errors="ignore")
-        messages.append({"role": "user", "content": content[:2000]})
 
 # ---------------- CHAT ----------------
 for msg in messages:
