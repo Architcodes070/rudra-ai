@@ -11,7 +11,6 @@ It provides a clean Chatbot-like interface with smart responses, chat history, a
 
 - 💬 Real-time AI Chat
 - 🧠 Smart Responses (Auto Model Selection)
-- 📂 File Upload Support (Text & Images)
 - 🗂 Multiple Chat Sessions
 - ⚡ Fast & Lightweight UI
 - 🔐 Secure API Key Handling
